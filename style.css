@@ -80,3 +80,6 @@ tr {
 table {
 	width: 40vw;
 }
+td:empty {
+	padding: 2.5vw;
+}

@@ -1,13 +1,21 @@
 let whiteTurn = true;
 let h1 = document.querySelector('h1');
 function allowDrop(ev) {
+	let whiteCase = whiteTurn && (String(ev.target.parentNode.classList).includes("1") || String(ev.target.parentNode.classList).includes("2"));
+	let blackCase = (!whiteTurn) && (String(ev.target.parentNode.classList).includes("7") || String(ev.target.parentNode.classList).includes("8"));
+	if(whiteCase || blackCase) {
+		ev.preventDefault();
+		console.log('h')
+		ev.dataTransfer.effectAllowed = "move";
+	} else {
+		ev.dataTransfer.effectAllowed = "none";
+	}
 	ev.preventDefault();
-	ev.dataTransfer.effectAllowed = "move";
+	
 }
   
 function drag(ev) {
 	ev.dataTransfer.setData("text", ev.target.id);
-	console.log(ev.target)
 	ev.dataTransfer.effectAllowed = "move";
 }
 
