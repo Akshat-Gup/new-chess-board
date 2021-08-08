@@ -1,3 +1,6 @@
+if(window.innerWidth <= 768) {
+	location.href = "https://akshat-gup.github.io/Chess-Board/";
+}
 let whiteTurn = true;
 let h1 = document.querySelector('h1');
 function allowDrop(ev) {
