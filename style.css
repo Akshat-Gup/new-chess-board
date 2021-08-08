@@ -83,3 +83,12 @@ table {
 td:empty {
 	padding: 2.5vw;
 }
+
+@media screen and (max-width: 1030px) {
+	table {
+		width: 60vw;
+	}
+	td:empty {
+		padding: 4vw;
+	}
+}
