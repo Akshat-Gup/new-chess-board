@@ -73,7 +73,9 @@ h1 {
 	height: 100%;
 }
 tr {
+	min-height: 5vw !important;
 	height: 5vw;
+	overflow: auto;
 }
 table {
 	width: 40vw;
