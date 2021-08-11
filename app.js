@@ -142,4 +142,3 @@ if(document.documentElement.clientWidth <= 960) {
 		heading.textContent = `${whiteTurn ? "White's" : "Black's"} turn`;
 	}
 }
-document.write(document.documentElement.clientWidth);

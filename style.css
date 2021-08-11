@@ -86,7 +86,7 @@ td:empty {
 
 @media screen and (max-width: 1030px) {
 	table {
-		width: 60vw;
+		width: 80vw;
 	}
 	td:empty {
 		padding: 4vw;
