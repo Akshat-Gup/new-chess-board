@@ -1,4 +1,5 @@
 var whiteTurn = true;
+alert(document.documentElement.clientWidth);
 if(document.documentElement.clientWidth <= 960) {
 	document.body.innerHTML = `
 		<h1>ChessBoard</h1>
