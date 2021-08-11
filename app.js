@@ -2,39 +2,33 @@ var whiteTurn = true;
 const BOARD_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const BLANK_IMG = '<img src="./images/blank.png">';
 
+// Useful functions
 const switchTurn = () => {
 	whiteTurn = !whiteTurn;
 };
 const replaceTitle = (h1) => {
 	h1.textContent = `${whiteTurn ? "White's" : "Black's"} turn`;
 };
-const isPiece = (imgClicked) => {
-	// If it's white's turn, a playable piece must contain 1 or 2 (rows associated with white pieces)
-	// If it's black's turn, a playable piece must contain 7 or 8 (rows associated with black pieces)
-	const WHITE_ROWS = ['1', '2'];
-	const BLACK_ROWS = ['7', '8'];
-	if (whiteTurn) {
-		return WHITE_ROWS.some((el) => imgClicked.includes(el));
-	} else {
-		return BLACK_ROWS.some((el) => imgClicked.includes(el));
-	}
-};
 
+// Handling desktop dragging and dropping
 const allowDrop = (ev) => ev.preventDefault();
 
 const drag = (ev) => {
+	// Capture the current piece's (the image being dragged's) id
 	ev.dataTransfer.setData('text', ev.target.id);
 	ev.dataTransfer.effectAllowed = 'move';
 };
 
 const drop = (ev) => {
-	let heading = document.querySelector('h1');
-	replaceTitle(heading);
+	// Change the title and switch the turn
+	replaceTitle(document.querySelector('h1'));
 	switchTurn();
 	ev.preventDefault();
 
+	// Add to the captured pieces menu if a piece touches another piece
 	let capturedPieces = document.querySelector('.capturepiece');
 	let capturedPiece = ev.target.tagName == 'IMG';
+
 	if (capturedPiece) {
 		var pieceBeingReplaced = ev.target.parentNode;
 		capturedPieces.appendChild(ev.target);
@@ -42,50 +36,36 @@ const drop = (ev) => {
 		var pieceBeingReplaced = ev.target;
 	}
 
+	// Replacing the tile of the square the piece moves to
 	var data = ev.dataTransfer.getData('text');
 	let movedPiece = document.getElementById(data);
 	pieceBeingReplaced.appendChild(movedPiece);
 };
+// Handling the mobile side of things
+let onMobile = document.documentElement.clientWidth <= 960;
+if (onMobile) {
+	// Setting custom HTML if the user is on mobile
+	let mobileHtml = `
+	<h1>ChessBoard</h1>
+	<script src="app.js"></script>
+	<div class="capturePiece"></div><table><tr><td class="white a 8"><img src="./images/a8.png"></td><td class="black b 8"><img src="./images/b8.png"></td><td class="white c 8"><img src="./images/c8.png"></td><td class="black d 8"><img src="./images/d8.png"></td><td class="white e 8"><img src="./images/e8.png"></td><td class="black f 8"><img src="./images/f8.png"></td><td class="white g 8"><img src="./images/g8.png"></td><td class="black h 8"><img src="./images/h8.png"></td></tr><tr><td class="black a 7"><img src="./images/a7.png"></td><td class="white b 7"><img src="./images/b7.png"></td><td class="black c 7"><img src="./images/c7.png"></td><td class="white d 7"><img src="./images/d7.png"></td><td class="black e 7"><img src="./images/e7.png"></td><td class="white f 7"><img src="./images/f7.png"></td><td class="black g 7"><img src="./images/g7.png"></td><td class="white h 7"><img src="./images/h7.png"></td></tr><tr><td class="white a 6"><img src="./images/blank.png"></td><td class="black b 6"><img src="./images/blank.png"></td><td class="white c 6"><img src="./images/blank.png"></td><td class="black d 6"><img src="./images/blank.png"></td><td class="white e 6"><img src="./images/blank.png"></td><td class="black f 6"><img src="./images/blank.png"></td><td class="white g 6"><img src="./images/blank.png"></td><td class="black h 6"><img src="./images/blank.png"></td></tr><tr><td class="black a 5"><img src="./images/blank.png"></td><td class="white b 5"><img src="./images/blank.png"></td><td class="black c 5"><img src="./images/blank.png"></td><td class="white d 5"><img src="./images/blank.png"></td><td class="black e 5"><img src="./images/blank.png"></td><td class="white f 5"><img src="./images/blank.png"></td><td class="black g 5"><img src="./images/blank.png"></td><td class="white h 5"><img src="./images/blank.png"></td></tr><tr><td class="white a 4"><img src="./images/blank.png"></td><td class="black b 4"><img src="./images/blank.png"></td><td class="white c 4"><img src="./images/blank.png"></td><td class="black d 4"><img src="./images/blank.png"></td><td class="white e 4"><img src="./images/blank.png"></td><td class="black f 4"><img src="./images/blank.png"></td><td class="white g 4"><img src="./images/blank.png"></td><td class="black h 4"><img src="./images/blank.png"></td></tr><tr><td class="black a 3"><img src="./images/blank.png"></td><td class="white b 3"><img src="./images/blank.png"></td><td class="black c 3"><img src="./images/blank.png"></td><td class="white d 3"><img src="./images/blank.png"></td><td class="black e 3"><img src="./images/blank.png"></td><td class="white f 3"><img src="./images/blank.png"></td><td class="black g 3"><img src="./images/blank.png"></td><td class="white h 3"><img src="./images/blank.png"></td></tr><tr><td class="white a 2"><img src="./images/a2.png"></td><td class="black b 2"><img src="./images/b2.png"></td><td class="white c 2"><img src="./images/c2.png"></td><td class="black d 2"><img src="./images/d2.png"></td><td class="white e 2"><img src="./images/e2.png"></td><td class="black f 2"><img src="./images/f2.png"></td><td class="white g 2"><img src="./images/g2.png"></td><td class="black h 2"><img src="./images/h2.png"></td></tr><tr><td class="black a 1"><img src="./images/a1.png"></td><td class="white b 1"><img src="./images/b1.png"></td><td class="black c 1"><img src="./images/c1.png"></td><td class="white d 1"><img src="./images/d1.png"></td><td class="black e 1"><img src="./images/e1.png"></td><td class="white f 1"><img src="./images/f1.png"></td><td class="black g 1"><img src="./images/g1.png"></td><td class="white h 1"><img src="./images/h1.png"></td></tr></table>
+	`;
+	document.body.innerHTML = mobileHtml;
 
-const createTable = () => {
-	let table = document.createElement('table');
+	// The website's most important elements
+	var capturedPieces = document.querySelector('.capturepiece');
+	var table = document.querySelector('table');
+	var pieceBeingMoved;
 
-	// (9-i) = row & BOARD_LETTERS(j-1) = column
-	for (var i = 1; i <= 8; i++) {
-		var tableRow = document.createElement('tr');
-		for (var j = 1; j <= 8; j++) {
-			var columnElement = document.createElement('td');
-			let squareName = `${BOARD_LETTERS[j - 1]} ${9 - i}`;
-
-			// A square is white if both row and column have the same modulus
-			if (i % 2 == j % 2) {
-				columnElement.className = `white ` + squareName;
-			} else {
-				columnElement.className = `black ` + squareName;
-			}
-			// If the rows are in the rangee 7-8 or 1-2, fill the pieceBeingMoved with pieces
-			columnElement.innerHTML =
-				i > 6 || i < 3
-					? `<img src="./images/${BOARD_LETTERS[j - 1]}${
-							9 - i
-					  }.png"/>`
-					: BLANK_IMG;
-			tableRow.appendChild(columnElement);
-		}
-		table.appendChild(tableRow);
-	}
-	document.body.appendChild(table);
-	return table;
-};
-
-const createCapturedPieces = () => {
-	let capturedPieces = document.createElement('div');
-	capturedPieces.classList.add('capturePiece');
-	document.body.appendChild(capturedPieces);
-	return capturedPieces;
-};
-
-const liftPieceHandler = (event) => {
+	table.addEventListener(
+		'click',
+		(e) => {
+			if (e.target.tagName == 'IMG') liftPieceHandler(e);
+		},
+		{ once: true }
+	);
+}
+function liftPieceHandler(event) {
 	let imageClicked = event.target.outerHTML;
 	let validPiece = isPiece(imageClicked);
 	if (validPiece) {
@@ -102,14 +82,14 @@ const liftPieceHandler = (event) => {
 		},
 		{ once: true }
 	);
-};
-const dropPieceHandler = (event) => {
+}
+function dropPieceHandler(event) {
 	let imageClicked = String(event.target.outerHTML);
 	if (imageClicked != BLANK_IMG) {
 		capturedPieces.innerHTML += imageClicked;
 	}
 	event.target.outerHTML = pieceBeingMoved;
-	replaceTitle(title);
+	replaceTitle(document.querySelector('h1'));
 	table.addEventListener(
 		'click',
 		(e) => {
@@ -119,32 +99,15 @@ const dropPieceHandler = (event) => {
 		},
 		{ once: true }
 	);
-};
-
-let onMobile = document.documentElement.clientWidth <= 960;
-if (onMobile) {
-	// Setting custom HTML if the user is on mobile
-	let mobileHtml = `
-		<h1>ChessBoard</h1>
-		<div class="capturePiece" id="piece-menu"></div>
-		<script src="app.js"></script>
-	`;
-	document.body.innerHTML = mobileHtml;
-
-	// The website's most important elements
-	var capturedPieces = createCapturedPieces();
-	var table = createTable();
-	var title = document.querySelector('h1');
-	var pieceBeingMoved;
-
-	table.addEventListener(
-		'click',
-		(e) => {
-			if (String(e.target.tagName) == 'IMG') {
-				// preventing users from clicking on the table directly
-				liftPieceHandler(e);
-			}
-		},
-		{ once: true }
-	);
+}
+function isPiece(imgClicked) {
+	// If it's white's turn, a playable piece must contain 1 or 2 (rows associated with white pieces)
+	// If it's black's turn, a playable piece must contain 7 or 8 (rows associated with black pieces)
+	const WHITE_ROWS = ['1', '2'];
+	const BLACK_ROWS = ['7', '8'];
+	if (whiteTurn) {
+		return WHITE_ROWS.some((el) => imgClicked.includes(el));
+	} else {
+		return BLACK_ROWS.some((el) => imgClicked.includes(el));
+	}
 }
