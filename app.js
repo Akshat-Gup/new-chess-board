@@ -1,5 +1,5 @@
 var whiteTurn = true;
-alert(document.documentElement.clientWidth);
+
 if(document.documentElement.clientWidth <= 960) {
 	document.body.innerHTML = `
 		<h1>ChessBoard</h1>
@@ -142,3 +142,4 @@ if(document.documentElement.clientWidth <= 960) {
 		heading.textContent = `${whiteTurn ? "White's" : "Black's"} turn`;
 	}
 }
+document.write(document.documentElement.clientWidth);
