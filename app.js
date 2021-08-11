@@ -1,5 +1,5 @@
 var whiteTurn = true;
-if(window.innerWidth <= 768) {
+if(document.documentElement.clientWidth <= 768) {
 	document.body.innerHTML = `
 		<h1>ChessBoard</h1>
 		<div class="capturePiece" id="piece-menu"></div>
