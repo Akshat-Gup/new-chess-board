@@ -21,8 +21,8 @@ const drag = (ev) => {
 
 const drop = (ev) => {
 	// Change the title and switch the turn
-	replaceTitle(document.querySelector('h1'));
 	switchTurn();
+	replaceTitle(document.querySelector('h1'));
 	ev.preventDefault();
 
 	// Add to the captured pieces menu if a piece touches another piece
