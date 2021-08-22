@@ -41,6 +41,7 @@ const drop = (ev) => {
 	let movedPiece = document.getElementById(data);
 	pieceBeingReplaced.appendChild(movedPiece);
 };
+
 // Handling the mobile side of things
 let onMobile = document.documentElement.clientWidth <= 960;
 if (onMobile) {
@@ -55,50 +56,36 @@ if (onMobile) {
 	// The website's most important elements
 	var capturedPieces = document.querySelector('.capturepiece');
 	var table = document.querySelector('table');
-	var pieceBeingMoved;
+	var pieceBeingMoved = BLANK_IMG;
 
 	table.addEventListener(
 		'click',
 		(e) => {
-			if (e.target.tagName == 'IMG') liftPieceHandler(e);
-		},
-		{ once: true }
+			let imageClicked = e.target.outerHTML;
+			let validPiece = isPiece(imageClicked);
+			(e.target.tagName == 'IMG' && validPiece && pieceBeingMoved == BLANK_IMG) ? liftPieceHandler(e) : dropPieceHandler(e);
+		}
 	);
 }
 function liftPieceHandler(event) {
-	let imageClicked = event.target.outerHTML;
-	let validPiece = isPiece(imageClicked);
-	if (validPiece) {
-		pieceBeingMoved = `${imageClicked}`;
+
+		pieceBeingMoved = `${event.target.outerHTML}`; //store the piece being moved
 		switchTurn();
 		event.target.outerHTML = BLANK_IMG; // remove the image of the square
-	}
-	table.addEventListener(
-		'click',
-		(e) => {
-			if (e.target.tagName == 'IMG') {
-				validPiece ? dropPieceHandler(e) : liftPieceHandler(e);
-			}
-		},
-		{ once: true }
-	);
 }
 function dropPieceHandler(event) {
-	let imageClicked = String(event.target.outerHTML);
-	if (imageClicked != BLANK_IMG) {
+	console.log('hi')
+	let imageClicked = `${event.target.outerHTML}`;
+	let validPiece = isPiece(imageClicked);
+	if (imageClicked != BLANK_IMG && !validPiece) {
+		return;
+	}
+	if (imageClicked != BLANK_IMG && imageClicked.tagName == "IMG") { // Only append to the captured pieces menu if the 
 		capturedPieces.innerHTML += imageClicked;
 	}
 	event.target.outerHTML = pieceBeingMoved;
 	replaceTitle(document.querySelector('h1'));
-	table.addEventListener(
-		'click',
-		(e) => {
-			if (String(e.target.tagName) == 'IMG') {
-				liftPieceHandler(e);
-			}
-		},
-		{ once: true }
-	);
+	pieceBeingMoved = BLANK_IMG;
 }
 function isPiece(imgClicked) {
 	// If it's white's turn, a playable piece must contain 1 or 2 (rows associated with white pieces)
